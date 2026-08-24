@@ -2,61 +2,85 @@
 
 > An end-to-end PostgreSQL, SQL and Power BI analytics project examining how the modern FIFA World Cup evolved in scale, stadium demand, sporting performance, commercial performance and global reach.
 
-## The story behind the project
+## Project origin
 
 This project started with a sitting-room argument while the 2026 FIFA World Cup was underway.
 
-The debate was simple: **was the 2026 World Cup actually a poor tournament, or did the data tell a different story?**
+The debate was simple: **was the 2026 World Cup genuinely a poor tournament, or did the data tell a different story?**
 
-Rather than continue arguing from opinions, I turned the question into a data project. I researched the evidence, built a relational PostgreSQL database, cleaned and validated the data, wrote SQL queries and analytical views, created comparison measures in DAX and developed a four-page Power BI report.
+Instead of continuing from opinions, I converted the argument into an analytical problem. I researched the evidence, built a relational PostgreSQL database, cleaned and validated the data, wrote SQL analysis and reporting views, created DAX comparison measures and built a four-page Power BI report.
 
 ## Central analytical question
 
 **How has the modern FIFA World Cup evolved since USA 1994, and was the 2026 tournament genuinely successful for both FIFA and football fans?**
 
-## Why the analysis begins in 1994
+## Why 1994–2026?
 
-The original idea covered every World Cup from 1930. I narrowed the final scope to 1994–2026 because the modern period provides stronger and more comparable evidence for attendance, stadium capacity, commercial performance and global audience metrics.
+The original concept covered every World Cup from 1930. The final comparison begins in 1994 because the modern period provides stronger and more comparable evidence for attendance, stadium capacity, commercial performance and global audience measures. USA 1994 also provides a natural North American benchmark for the Canada–Mexico–United States 2026 edition.
 
-The period also creates a useful comparison between **USA 1994** and the **Canada–Mexico–United States 2026** edition.
+## Technology stack
 
-## Tools used
+`PostgreSQL` `SQL` `Power BI` `DAX` `Relational Data Modelling` `Data Cleaning` `Data Validation` `Business Intelligence` `Data Visualisation` `Analytical Storytelling`
 
-- PostgreSQL
-- SQL
-- Power BI
-- DAX
-- Relational data modelling
-- Data cleaning and validation
-- Data visualisation
-- Analytical storytelling
+## End-to-end workflow
 
-## Project workflow
-
-1. Defined the analytical problem and success framework.
-2. Collected tournament, match, venue, attendance, sporting, financial and audience evidence from multiple sources.
+1. Defined the analytical problem, scope and success framework.
+2. Collected tournament, match, stadium, attendance, sporting, ticketing, financial and audience evidence.
 3. Built a relational PostgreSQL database.
-4. Standardised keys, venue names, tournament years and reporting definitions.
-5. Corrected historical stadium-capacity mappings and validated utilisation denominators.
-6. Used SQL joins, aggregations, calculations and validation queries to create analysis-ready outputs.
-7. Connected the validated model to Power BI.
-8. Created DAX measures for selected-year KPIs and previous-tournament comparisons.
-9. Built four interactive dashboard pages.
-10. Interpreted the results and answered the original question using the available evidence.
+4. Standardised identifiers, names, tournament years and measurement definitions.
+5. Corrected historical stadium-capacity mappings and audited utilisation denominators.
+6. Validated relationships, missing values, duplicate risks and reporting status using SQL.
+7. Built analytical SQL queries and database views.
+8. Connected the validated data to Power BI.
+9. Created DAX measures for dynamic KPIs, baseline handling and previous-valid-tournament comparison.
+10. Built four interactive dashboard pages and produced the final evidence-based verdict.
 
-## Final dashboard structure
+## Database
+
+The repository includes the **complete PostgreSQL database dump** used for the project:
+
+[`database/fifa_world_cup_database(1994 - 2026).sql`](database/fifa_world_cup_database(1994%20-%202026).sql)
+
+The database contains **16 physical tables and 9 analytical views**, including tournament, match, attendance, venue, team, player, squad, ticketing, financial and audience layers.
+
+See:
+- [Database restoration guide](database/README.md)
+- [Data model](docs/data_model.md)
+- [Data dictionary](docs/data_dictionary.md)
+
+## SQL analysis
+
+The SQL folder contains both core and advanced analytical work:
+
+- [Core analysis queries](sql/analysis_queries.sql)
+- [Data-quality validation](sql/01_data_quality_validation.sql)
+- [Tournament growth & previous-edition comparison](sql/02_growth_comparison_analysis.sql)
+- [Sporting & venue analysis](sql/03_sporting_venue_analysis.sql)
+- [Financial, audience & ticket-demand analysis](sql/04_financial_audience_analysis.sql)
+
+Techniques demonstrated include multi-table JOINs, aggregation, calculated metrics, FILTER, CTEs, window functions (`LAG`), NULL-safe division, exception auditing and analytical views.
+
+## Power BI report
+
+The interactive Power BI file is included in the repository:
+
+[`powerbi/FIFA_World_Cup_Evolution_1994_2026.pbix`](powerbi/FIFA_World_Cup_Evolution_1994_2026.pbix)
+
+The report contains four pages:
 
 ### 1. Growth & Global Impact
-Tracks tournament expansion, total attendance, average attendance and stadium capacity utilisation from 1994 to 2026.
+Tournament expansion, teams, matches, total attendance, average attendance and stadium capacity utilisation.
 
 ### 2. Growth & Comparisons
-Compares the selected tournament with the previous edition and historical benchmarks.
+Previous-edition growth and historical benchmarking so record totals are not interpreted without tournament-size context.
 
 ### 3. Sporting & Venue Performance
-Examines goals, goals per match, drawn matches, winning margins, discipline and top venues by average attendance.
+Goals, goals per match, drawn matches, winning margins, discipline and high-attendance venues.
 
 ### 4. Financial & Global Reach
-Examines World Cup cost, revenue/budget, projected surplus, revenue mix and modern audience/digital engagement metrics.
+World Cup cost, revenue/budget, projected surplus, revenue mix, audience/engagement, video views and social-media impressions.
+
+Representative DAX logic is documented in [powerbi/dax_measures.md](powerbi/dax_measures.md).
 
 ## Key 2026 findings
 
@@ -64,13 +88,13 @@ Examines World Cup cost, revenue/budget, projected surplus, revenue mix and mode
 |---|---:|---|
 | Teams | 48 | +50.0% vs 2022 |
 | Matches | 104 | +62.5% vs 2022 |
-| Total attendance | ~7.0M | ~100.1% higher than 2022 |
-| Average attendance | ~65K | Stronger per-match demand, not only more fixtures |
+| Total attendance | ~7.0M | Approximately double 2022 in the completed dataset |
+| Average attendance | ~65K | Strong per-match demand, not only more fixtures |
 | Capacity utilisation | 99.74% | Near-full stadium utilisation |
-| Goals | 308 | 2.96 goals per match |
+| Goals | 308 | 2.96 per match |
 | World Cup cost | $3.76bn | 2026 budget/provisional basis |
 | Revenue / budget | $8.91bn | 2026 budget/provisional basis |
-| Projected surplus | $5.16bn | Revenue/budget less World Cup cost |
+| Projected surplus | $5.16bn | Analytical revenue/budget less cost |
 | Audience / engagement | 5.20bn | Reported engagement measure |
 | Digital / video views | 20.00bn | Reported digital/video measure |
 | Social impressions | 30.00bn | Reported social-media measure |
@@ -79,13 +103,13 @@ Examines World Cup cost, revenue/budget, projected surplus, revenue mix and mode
 
 The strongest finding is that the 2026 attendance record cannot be explained by tournament expansion alone.
 
-More matches naturally increase total attendance, but **average attendance also increased materially and stadium capacity utilisation reached 99.74%**. This indicates that tournament scale and genuine stadium demand increased together.
+More matches naturally create more opportunities to accumulate attendance. However, **average attendance also increased materially and capacity utilisation reached 99.74%**. Tournament scale and genuine stadium demand therefore increased together.
 
 ## Final verdict
 
-**The available performance data does not support describing the 2026 FIFA World Cup as a poor tournament overall.**
+**The measurable performance evidence does not support describing the 2026 FIFA World Cup as a poor tournament overall.**
 
-The evidence supports a strong tournament in terms of:
+The evidence supports strong performance in:
 
 - structural scale;
 - stadium demand;
@@ -93,35 +117,34 @@ The evidence supports a strong tournament in terms of:
 - commercial potential; and
 - global/digital engagement.
 
-However, this does **not** prove that every supporter experienced the tournament positively. Comparable historical evidence for ticket affordability, travel burden, visa accessibility and subjective fan experience is less complete, so those criticisms should be treated separately from the core performance verdict.
+This does not prove that every supporter had a positive experience. Comparable historical evidence for ticket affordability, travel burden, visa accessibility and subjective fan satisfaction is less complete, so those criticisms are kept separate from the core performance verdict.
 
-## Important data limitations
+## Project report
 
-- 2026 financial values used in the dashboard are budget/provisional rather than final audited World Cup actuals.
-- The projected surplus is an analytical calculation, not certified accounting profit.
-- Digital views, impressions, reach and engagement are different measures and are not unique-audience counts.
-- Missing historical digital metrics remain blank rather than being replaced with zero.
-- Attendance and listed stadium capacity may occasionally use slightly different reporting definitions.
+The full written analytical report is available here:
 
-## Repository structure
+[`report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf`](report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf)
 
-```text
-fifa-world-cup-analytics/
-├── README.md
-├── sql/
-│   ├── analysis_queries.sql
-│   └── capacity_validation.sql
-└── docs/
-    ├── data_model.md
-    └── methodology.md
-```
+It documents the project origin, database build, cleaning and validation, SQL workflow, Power BI model, findings, limitations and final conclusion.
 
-Dashboard screenshots, the Power BI file and the full PDF project report will be added as project assets.
+## Documentation
 
-## Skills demonstrated
+- [Methodology](docs/methodology.md)
+- [Data model](docs/data_model.md)
+- [Data dictionary](docs/data_dictionary.md)
+- [Key findings](docs/key_findings.md)
+- [Limitations](docs/limitations.md)
+- [DAX measures](powerbi/dax_measures.md)
 
-`PostgreSQL` `SQL` `JOINs` `GROUP BY` `Aggregations` `Data Validation` `Relational Databases` `Power BI` `DAX` `Data Modelling` `Business Intelligence` `Data Storytelling`
+## Reproducibility
+
+A technical reviewer can reproduce the analytical environment by restoring the SQL dump into PostgreSQL and running the SQL scripts in this repository. The PBIX file is also provided for inspection of the semantic model, DAX and final dashboard design.
+
+## Data and rights note
+
+Underlying FIFA/tournament facts remain attributable to their respective original data sources. The repository documents the project's original database compilation, transformations, SQL analysis, model design, dashboard construction and analytical interpretation.
 
 ---
 
-**Project by Ibraheem Ibraheem (Bleezysmart)**
+**Project & analysis: Ibraheem Ibraheem (Bleezysmart)**  
+**2026**
