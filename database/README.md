@@ -4,7 +4,7 @@ This directory contains the reproducible PostgreSQL database used for the FIFA W
 
 ## Database file
 
-`fifa_world_cup_database.sql`
+[`fifa_world_cup_database(1994 - 2026).sql`](fifa_world_cup_database(1994%20-%202026).sql)
 
 The SQL dump contains the project schema, relationships, analytical views and underlying project data used across the 1994–2026 analysis.
 
@@ -13,14 +13,14 @@ The SQL dump contains the project schema, relationships, analytical views and un
 ### Using pgAdmin
 1. Create an empty PostgreSQL database, for example `fifa_world_cup`.
 2. Open **Query Tool** for the new database.
-3. Open `fifa_world_cup_database.sql`.
+3. Open `fifa_world_cup_database(1994 - 2026).sql`.
 4. Execute the script.
 5. Refresh the database objects after completion.
 
 ### Using psql
 ```bash
 createdb fifa_world_cup
-psql -d fifa_world_cup -f fifa_world_cup_database.sql
+psql -d fifa_world_cup -f "fifa_world_cup_database(1994 - 2026).sql"
 ```
 
 If your local PostgreSQL role differs from the role recorded in the original pgAdmin dump, remove or replace `OWNER TO postgres` statements before restoring.
