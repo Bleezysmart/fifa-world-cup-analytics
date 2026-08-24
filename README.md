@@ -20,7 +20,38 @@ The original concept covered every World Cup from 1930. The final comparison beg
 
 ## Technology stack
 
-`PostgreSQL` `SQL` `Power BI` `DAX` `Relational Data Modelling` `Data Cleaning` `Data Validation` `Business Intelligence` `Data Visualisation` `Analytical Storytelling`
+`PostgreSQL` `SQL` `Power BI` `DAX` `Relational Data Modelling` `Data Cleaning` `Data Validation` `Window Functions` `Business Intelligence` `Data Visualisation` `Analytical Storytelling`
+
+## Project deliverables
+
+| Deliverable | Access |
+|---|---|
+| PostgreSQL database | [Download / inspect SQL dump](database/fifa_world_cup_database(1994%20-%202026).sql) |
+| SQL analysis | [Browse SQL scripts](sql/) |
+| Power BI source | [Download PBIX](powerbi/FIFA_World_Cup_Evolution_1994_2026.pbix) |
+| Full project report | [Open PDF report](report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf) |
+| Methodology | [Read methodology](docs/methodology.md) |
+| Data model | [View model documentation](docs/data_model.md) |
+| Data dictionary | [View data dictionary](docs/data_dictionary.md) |
+| DAX | [View DAX patterns](powerbi/dax_measures.md) |
+
+## Dashboard preview
+
+### 1. Growth & Global Impact
+
+![Growth & Global Impact](report/01_Growth_Global_Impact.png)
+
+### 2. Growth & Comparisons
+
+![Growth & Comparisons](report/02_Growth_Comparisons.png)
+
+### 3. Sporting & Venue Performance
+
+![Sporting & Venue Performance](report/03_Sporting_Venue_Performance.png)
+
+### 4. Financial & Global Reach
+
+![Financial & Global Reach](report/04_Financial_Global_Reach.png)
 
 ## End-to-end workflow
 
@@ -35,22 +66,17 @@ The original concept covered every World Cup from 1930. The final comparison beg
 9. Created DAX measures for dynamic KPIs, baseline handling and previous-valid-tournament comparison.
 10. Built four interactive dashboard pages and produced the final evidence-based verdict.
 
-## Database
+## Database architecture
 
-The repository includes the **complete PostgreSQL database dump** used for the project:
+The repository includes the **complete PostgreSQL database dump** used for the project. The database contains **16 physical tables and 9 analytical views**, covering tournament, match, attendance, venue, team, player, squad, event, ticketing, financial and audience subject areas.
 
-[`database/fifa_world_cup_database(1994 - 2026).sql`](database/fifa_world_cup_database(1994%20-%202026).sql)
+The model deliberately separates different analytical grains rather than forcing all metrics into one flat table. Match-level attendance and sporting records can therefore be aggregated safely while tournament-level financial and audience measures remain at their appropriate grain.
 
-The database contains **16 physical tables and 9 analytical views**, including tournament, match, attendance, venue, team, player, squad, ticketing, financial and audience layers.
-
-See:
-- [Database restoration guide](database/README.md)
-- [Data model](docs/data_model.md)
-- [Data dictionary](docs/data_dictionary.md)
+See the [database restoration guide](database/README.md), [data model](docs/data_model.md) and [data dictionary](docs/data_dictionary.md).
 
 ## SQL analysis
 
-The SQL folder contains both core and advanced analytical work:
+The SQL layer includes:
 
 - [Core analysis queries](sql/analysis_queries.sql)
 - [Data-quality validation](sql/01_data_quality_validation.sql)
@@ -58,27 +84,11 @@ The SQL folder contains both core and advanced analytical work:
 - [Sporting & venue analysis](sql/03_sporting_venue_analysis.sql)
 - [Financial, audience & ticket-demand analysis](sql/04_financial_audience_analysis.sql)
 
-Techniques demonstrated include multi-table JOINs, aggregation, calculated metrics, FILTER, CTEs, window functions (`LAG`), NULL-safe division, exception auditing and analytical views.
+Techniques demonstrated include multi-table `JOIN`s, `GROUP BY`, aggregation, calculated metrics, conditional aggregation with `FILTER`, CTEs, window functions such as `LAG()`, NULL-safe division with `NULLIF()`, exception auditing and analytical views.
 
-## Power BI report
+## Power BI & DAX
 
-The interactive Power BI file is included in the repository:
-
-[`powerbi/FIFA_World_Cup_Evolution_1994_2026.pbix`](powerbi/FIFA_World_Cup_Evolution_1994_2026.pbix)
-
-The report contains four pages:
-
-### 1. Growth & Global Impact
-Tournament expansion, teams, matches, total attendance, average attendance and stadium capacity utilisation.
-
-### 2. Growth & Comparisons
-Previous-edition growth and historical benchmarking so record totals are not interpreted without tournament-size context.
-
-### 3. Sporting & Venue Performance
-Goals, goals per match, drawn matches, winning margins, discipline and high-attendance venues.
-
-### 4. Financial & Global Reach
-World Cup cost, revenue/budget, projected surplus, revenue mix, audience/engagement, video views and social-media impressions.
+The `.pbix` source is included so the semantic model and dashboard can be inspected directly. The report uses a tournament dimension to control year context across the pages, while DAX measures handle dynamic KPIs, baseline states and comparisons against the previous tournament with a valid observation.
 
 Representative DAX logic is documented in [powerbi/dax_measures.md](powerbi/dax_measures.md).
 
@@ -109,40 +119,27 @@ More matches naturally create more opportunities to accumulate attendance. Howev
 
 **The measurable performance evidence does not support describing the 2026 FIFA World Cup as a poor tournament overall.**
 
-The evidence supports strong performance in:
-
-- structural scale;
-- stadium demand;
-- sporting output;
-- commercial potential; and
-- global/digital engagement.
+The evidence supports strong performance in structural scale, stadium demand, sporting output, commercial potential and global/digital engagement.
 
 This does not prove that every supporter had a positive experience. Comparable historical evidence for ticket affordability, travel burden, visa accessibility and subjective fan satisfaction is less complete, so those criticisms are kept separate from the core performance verdict.
 
-## Project report
+## Reproducibility
 
-The full written analytical report is available here:
-
-[`report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf`](report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf)
-
-It documents the project origin, database build, cleaning and validation, SQL workflow, Power BI model, findings, limitations and final conclusion.
+A technical reviewer can recreate the analytical environment by restoring the SQL dump into PostgreSQL and running the SQL scripts in this repository. The PBIX file is provided for inspection of the semantic model, DAX and dashboard design, while the PNG exports allow the final report to be reviewed directly in GitHub without Power BI Desktop.
 
 ## Documentation
 
+- [Full analytical report](report/FIFA_World_Cup_Evolution_1994_2026_Report.pdf)
 - [Methodology](docs/methodology.md)
 - [Data model](docs/data_model.md)
 - [Data dictionary](docs/data_dictionary.md)
 - [Key findings](docs/key_findings.md)
 - [Limitations](docs/limitations.md)
-- [DAX measures](powerbi/dax_measures.md)
-
-## Reproducibility
-
-A technical reviewer can reproduce the analytical environment by restoring the SQL dump into PostgreSQL and running the SQL scripts in this repository. The PBIX file is also provided for inspection of the semantic model, DAX and final dashboard design.
+- [Dashboard exports](report/)
 
 ## Data and rights note
 
-Underlying FIFA/tournament facts remain attributable to their respective original data sources. The repository documents the project's original database compilation, transformations, SQL analysis, model design, dashboard construction and analytical interpretation.
+Underlying FIFA/tournament facts remain attributable to their respective original data sources. This repository documents the project's database compilation, transformations, SQL analysis, model design, dashboard construction and original analytical interpretation.
 
 ---
 
