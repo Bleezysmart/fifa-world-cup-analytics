@@ -2,16 +2,13 @@
  FIFA World Cup Analytics | Core Analysis Queries
  PostgreSQL
 
- These queries represent clear, explainable analysis used to validate
- and explore tournament performance before visualisation in Power BI.
+ The queries below use the real project schema contained in
+ database/fifa_world_cup_database(1994 - 2026).sql.
 */
 
 -- ============================================================
 -- 1. TOURNAMENT ATTENDANCE PERFORMANCE
--- How have match volume, total attendance and average attendance
--- changed across World Cups?
 -- ============================================================
-
 SELECT
     t.year,
     COUNT(m.match_id) AS total_matches,
@@ -25,12 +22,10 @@ JOIN match_attendance ma
 GROUP BY t.year
 ORDER BY t.year;
 
-
 -- ============================================================
 -- 2. CAPACITY UTILISATION BY TOURNAMENT
--- Measures the proportion of available stadium capacity used.
+-- Weighted utilisation = total attendance / total available capacity.
 -- ============================================================
-
 SELECT
     t.year,
     SUM(ma.attendance) AS total_attendance,
@@ -48,12 +43,9 @@ JOIN match_attendance ma
 GROUP BY t.year
 ORDER BY t.year;
 
-
 -- ============================================================
 -- 3. GOALS PER MATCH BY TOURNAMENT
--- Separates total scoring volume from scoring rate.
 -- ============================================================
-
 SELECT
     t.year,
     COUNT(m.match_id) AS total_matches,
@@ -69,14 +61,12 @@ JOIN matches m
 GROUP BY t.year
 ORDER BY t.year;
 
-
 -- ============================================================
 -- 4. TOP VENUES BY AVERAGE ATTENDANCE
--- Identifies venues generating the strongest average crowds.
 -- ============================================================
-
 SELECT
-    v.venue_name,
+    v.stadium_name,
+    v.city,
     ROUND(AVG(ma.attendance)) AS avg_attendance,
     COUNT(m.match_id) AS matches_hosted
 FROM venues v
@@ -84,6 +74,21 @@ JOIN matches m
     ON m.venue_id = v.venue_id
 JOIN match_attendance ma
     ON ma.match_id = m.match_id
-GROUP BY v.venue_name
+GROUP BY v.stadium_name, v.city
 ORDER BY avg_attendance DESC
-LIMIT 5;
+LIMIT 10;
+
+-- ============================================================
+-- 5. FINANCIAL PERFORMANCE VIEW
+-- Uses the analysis-ready database view built for Power BI.
+-- ============================================================
+SELECT *
+FROM vw_financial_performance
+ORDER BY year;
+
+-- ============================================================
+-- 6. AUDIENCE PERFORMANCE VIEW
+-- ============================================================
+SELECT *
+FROM vw_audience_performance
+ORDER BY year, metric_name;
